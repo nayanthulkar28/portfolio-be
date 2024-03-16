@@ -12,6 +12,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Get commit id as tag
+        run: echo "docker_tag=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
+
       - name: Login to docker hub
         uses: docker/login-action@v1
         with:
@@ -23,4 +26,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: nayan137/portfolio-be:tagss
+          tags: nayan137/portfolio-be:${{env.docker_tag}}
