@@ -28,26 +28,26 @@ jobs:
           push: true
           tags: ${{secrets.DOCKER_USERNAME}}/portfolio-be:${{env.docker_tag}}
 
-      # - name: Deploy to ec2
-      #   uses: appleboy/ssh-action@master
-      #   with:
-      #     host: ${{secrets.EC2_HOST}}
-      #     username: ${{secrets.EC2_USERNAME}}
-      #     key: ${{secrets.EC2_PRIVATE_KEY}}
-      #     scripts: |
-      #       docker stop portfolio-be || true
-      #       docker rm portfolio-be || true
-      #       docker pull ${{secrets.DOCKER_USERNAME}}/portfolio-be:${{env.docker_tag}}
-      #       docker run -d --name portfolio-be -p 8080:8080 ${{secrets.DOCKER_USERNAME}}/portfolio-be:${{env.docker_tag}}
+      - name: Deploy to ec2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{secrets.EC2_HOST}}
+          username: ${{secrets.EC2_USERNAME}}
+          key: ${{secrets.EC2_PRIVATE_KEY}}
+          scripts: |
+            docker stop portfolio-be || true
+            docker rm portfolio-be || true
+            docker pull ${{secrets.DOCKER_USERNAME}}/portfolio-be:${{env.docker_tag}}
+            docker run -d --name portfolio-be -p 8080:8080 ${{secrets.DOCKER_USERNAME}}/portfolio-be:${{env.docker_tag}}
 
-  deploy:
-    needs: build-push
-    runs-on: portfolio-be-ec2-runner
-    steps:
-      - name: setup docker container
-        run: |
-          docker stop portfolio-be || true
-          docker rm portfolio-be || true
-          docker pull ${{secrets.DOCKER_USERNAME}}/portfolio-be:${{env.docker_tag}}
-          docker run -d --name portfolio-be -p 8080:8080 ${{secrets.DOCKER_USERNAME}}/portfolio-be:${{env.docker_tag}}
+  # deploy:
+  #   needs: build-push
+  #   runs-on: portfolio-be-ec2-runner
+  #   steps:
+  #     - name: setup docker container
+  #       run: |
+  #         docker stop portfolio-be || true
+  #         docker rm portfolio-be || true
+  #         docker pull ${{secrets.DOCKER_USERNAME}}/portfolio-be:${{env.docker_tag}}
+  #         docker run -d --name portfolio-be -p 8080:8080 ${{secrets.DOCKER_USERNAME}}/portfolio-be:${{env.docker_tag}}
       
