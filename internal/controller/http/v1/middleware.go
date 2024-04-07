@@ -30,3 +30,8 @@ func (m *Middleware) ValidateApiKey(c *gin.Context) {
 	}
 	c.Next()
 }
+
+func (m *Middleware) CORSMiddleware(c *gin.Context) {
+	c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+	c.Next()
+}
