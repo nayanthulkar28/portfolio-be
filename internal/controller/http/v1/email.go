@@ -32,5 +32,6 @@ func (r *EmailRoutes) SendEmail(c *gin.Context) {
 		errorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
+	// c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 	c.JSON(http.StatusOK, response)
 }

@@ -33,5 +33,12 @@ func (m *Middleware) ValidateApiKey(c *gin.Context) {
 
 func (m *Middleware) CORSMiddleware(c *gin.Context) {
 	c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+	c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
+	c.Writer.Header().Set("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT")
+	c.Writer.Header().Set("Access-Control-Allow-Headers", "Origin,Accept,X-Requested-With,Content-Type,p-api-key")
+	if c.Request.Method == "OPTIONS" {
+		c.AbortWithStatus(204)
+		return
+	}
 	c.Next()
 }
