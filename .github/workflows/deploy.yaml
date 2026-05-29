@@ -39,4 +39,4 @@ jobs:
             docker rm portfolio-be || true
             docker rmi $(docker images -q ${{secrets.DOCKER_USERNAME}}/portfolio-be) || true
             docker pull ${{secrets.DOCKER_USERNAME}}/portfolio-be:${{env.docker_tag}}
-            docker run -d --name portfolio-be -p 8080:8080 ${{secrets.DOCKER_USERNAME}}/portfolio-be:${{env.docker_tag}}
+            docker run -d --name portfolio-be --restart=unless-stopped -p 8080:8080 ${{secrets.DOCKER_USERNAME}}/portfolio-be:${{env.docker_tag}}
